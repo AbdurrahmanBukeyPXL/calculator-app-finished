@@ -1,0 +1,16 @@
+name: Dependencies Example
+on: push
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup NPM framework
+        uses: actions/setup-node@v4
+        with:
+          node-version: '15.x'
+      - name: Install dependencies
+        run: npm ci
+      - name: verification
+        run: ls -alhR
