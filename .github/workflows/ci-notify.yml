@@ -23,3 +23,27 @@ jobs:
           curl -H "Content-Type: application/json" \
             -d '{"content": "Build geslaagd"}' \
             ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord - push main success
+        if: success() && github.event_name == 'push'
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{"content": "Build geslaagd op main (push)"}' \
+            ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord - PR success
+        if: success() && github.event_name == 'pull_request'
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{"content": "Build geslaagd voor PR (branch ${{ github.head_ref }})"}' \
+            ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord - push main failure
+        if: failure() && github.event_name == 'push'
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{"content": "Build GEFAALD op main (push)"}' \
+            ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Discord - PR failure
+        if: failure() && github.event_name == 'pull_request'
+        run: |
+          curl -H "Content-Type: application/json" \
+            -d '{"content": "Build GEFAALD voor PR (branch ${{ github.head_ref }})"}' \
+            ${{ secrets.DISCORD_WEBHOOK }}
