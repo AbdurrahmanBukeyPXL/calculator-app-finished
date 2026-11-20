@@ -1,0 +1,12 @@
+name: Test Deployment
+on: workflow_dispatch
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Pull the latest Docker image
+        run: docker pull abdurrahmanbukey/calculator-app-finished:latest
+      - name: Stop running containers
+        run: docker rm -f calculator-app || true
+      - name: Run the latest container
+        run: docker run -d --name calculator-app -p 3000:5000 abdurrahmanbukey/calculator-app-finished:latest
